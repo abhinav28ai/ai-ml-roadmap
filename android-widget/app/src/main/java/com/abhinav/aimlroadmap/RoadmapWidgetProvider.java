@@ -53,6 +53,11 @@ public class RoadmapWidgetProvider extends AppWidgetProvider {
         );
     }
 
+    @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, android.os.Bundle newOptions) {
+        updateAll(context, appWidgetManager);
+    }
+
     public static void updateAll(Context c, AppWidgetManager manager) {
         int day = RoadmapStore.getCurrentDay(c);
         JSONObject d = RoadmapData.day(c, day);
@@ -72,25 +77,38 @@ public class RoadmapWidgetProvider extends AppWidgetProvider {
             }
         } catch (Exception ignored) {}
 
-        RemoteViews v = new RemoteViews(c.getPackageName(), R.layout.widget_roadmap);
-        v.setTextViewText(R.id.widgetDay, "DAY " + day + " / 130");
-        v.setTextViewText(R.id.widgetTitle, title);
-        v.setTextViewText(R.id.widgetDsa, qtext);
-        Bitmap ring = CircleBitmap.make(RoadmapStore.completionPercent(c), 112);
-        v.setImageViewBitmap(R.id.widgetProgress, ring);
-
-        v.setOnClickPendingIntent(R.id.widgetPrev, action(c, ACTION_PREV, 101));
-        v.setOnClickPendingIntent(R.id.widgetDone, action(c, ACTION_DONE, 102));
-        v.setOnClickPendingIntent(R.id.widgetNext, action(c, ACTION_NEXT, 103));
-
-        Intent open = new Intent(c, MainActivity.class);
-        PendingIntent openPi = PendingIntent.getActivity(
-                c, 104, open,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-        v.setOnClickPendingIntent(R.id.widgetTitle, openPi);
-
         ComponentName component = new ComponentName(c, RoadmapWidgetProvider.class);
-        manager.updateAppWidget(component, v);
+        int[] ids = manager.getAppWidgetIds(component);
+        if (ids == null || ids.length == 0) return;
+
+        for (int appWidgetId : ids) {
+            android.os.Bundle options = manager.getAppWidgetOptions(appWidgetId);
+            int minHeight = options != null ? options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0) : 0;
+            int minWidth = options != null ? options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 0) : 0;
+            boolean compact = minHeight > 0 && (minHeight < 175 || (minWidth > 0 && minWidth < 190));
+
+            int layoutId = compact ? R.layout.widget_roadmap_compact : R.layout.widget_roadmap;
+            RemoteViews v = new RemoteViews(c.getPackageName(), layoutId);
+            v.setTextViewText(R.id.widgetDay, "DAY " + day + " / 130");
+            v.setTextViewText(R.id.widgetTitle, title);
+            v.setTextViewText(R.id.widgetDsa, qtext);
+            Bitmap ring = CircleBitmap.make(RoadmapStore.completionPercent(c), compact ? 72 : 88);
+            v.setImageViewBitmap(R.id.widgetProgress, ring);
+
+            v.setOnClickPendingIntent(R.id.widgetPrev, action(c, ACTION_PREV, 101 + appWidgetId * 10));
+            v.setOnClickPendingIntent(R.id.widgetDone, action(c, ACTION_DONE, 102 + appWidgetId * 10));
+            v.setOnClickPendingIntent(R.id.widgetNext, action(c, ACTION_NEXT, 103 + appWidgetId * 10));
+
+            Intent open = new Intent(c, MainActivity.class);
+            PendingIntent openPi = PendingIntent.getActivity(
+                    c, 104 + appWidgetId * 10, open,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+            );
+            v.setOnClickPendingIntent(R.id.widgetTitle, openPi);
+            v.setOnClickPendingIntent(R.id.widgetBrand, openPi);
+
+            manager.updateAppWidget(appWidgetId, v);
+        }
     }
+
 }

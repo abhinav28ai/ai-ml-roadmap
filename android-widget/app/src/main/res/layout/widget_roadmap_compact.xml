@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="8dp"
     android:background="@drawable/widget_bg"
     android:clipToPadding="false">
 
@@ -19,14 +19,14 @@
             android:text="AI ML ROADMAP"
             android:textColor="#E0E0E0"
             android:textStyle="bold"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true"
             android:ellipsize="end"/>
 
         <ImageView
             android:id="@+id/widgetProgress"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:contentDescription="Roadmap completion"/>
     </LinearLayout>
 
@@ -34,10 +34,10 @@
         android:id="@+id/widgetDay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:text="DAY 1 / 130"
         android:textColor="#B0B0B0"
-        android:textSize="9sp"
+        android:textSize="8sp"
         android:textStyle="bold"
         android:singleLine="true"/>
 
@@ -45,10 +45,10 @@
         android:id="@+id/widgetTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:text="Today's Target"
         android:textColor="#E0E0E0"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:maxLines="2"
         android:ellipsize="end"/>
@@ -57,9 +57,9 @@
         android:id="@+id/widgetDsa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="1dp"
         android:textColor="#B0B0B0"
-        android:textSize="9sp"
+        android:textSize="8sp"
         android:maxLines="2"
         android:ellipsize="end"/>
 
@@ -70,7 +70,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="26dp"
         android:orientation="horizontal">
 
         <TextView
@@ -80,7 +80,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="‹"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#E0E0E0"
             android:background="@drawable/button_bg"
             android:clickable="true"
@@ -91,11 +91,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:gravity="center"
             android:text="✓ DONE"
-            android:textSize="10sp"
+            android:textSize="9sp"
             android:textColor="#121212"
             android:background="@drawable/button_primary_bg"
             android:clickable="true"
@@ -108,7 +108,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="›"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#E0E0E0"
             android:background="@drawable/button_bg"
             android:clickable="true"
