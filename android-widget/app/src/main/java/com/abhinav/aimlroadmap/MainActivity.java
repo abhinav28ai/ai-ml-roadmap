@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
+import android.view.WindowInsets;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,10 +84,29 @@ public class MainActivity extends Activity {
     private void buildUi() {
         ScrollView scroll = new ScrollView(this);
         scroll.setBackgroundColor(BG);
+        scroll.setClipToPadding(false);
         root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setPadding(14, 14, 14, 22);
         scroll.addView(root);
+
+        // Android 15+ enforces edge-to-edge for apps targeting API 35+.
+        // Apply the system-bar insets to keep the app content below the status
+        // bar and above the navigation gesture area on Pixel/modern Android.
+        scroll.setOnApplyWindowInsetsListener((v, insets) -> {
+            int top = 0;
+            int bottom = 0;
+            if (Build.VERSION.SDK_INT >= 30) {
+                android.graphics.Insets bars = insets.getInsets(WindowInsets.Type.systemBars());
+                top = bars.top;
+                bottom = bars.bottom;
+            } else {
+                top = insets.getSystemWindowInsetTop();
+                bottom = insets.getSystemWindowInsetBottom();
+            }
+            root.setPadding(14, 14 + top, 14, 22 + bottom);
+            return insets;
+        });
 
         LinearLayout header = new LinearLayout(this);
         header.setOrientation(LinearLayout.VERTICAL);
@@ -97,9 +118,9 @@ public class MainActivity extends Activity {
         Button next = button("›");
         dayLabel = tv("DAY 1 / 130", 11, MUTED, true);
         dayLabel.setGravity(Gravity.CENTER);
-        nav.addView(prev, new LinearLayout.LayoutParams(48, 44));
-        nav.addView(dayLabel, new LinearLayout.LayoutParams(0, 44, 1));
-        nav.addView(next, new LinearLayout.LayoutParams(48, 44));
+        nav.addView(prev, new LinearLayout.LayoutParams(48, 40));
+        nav.addView(dayLabel, new LinearLayout.LayoutParams(0, 40, 1));
+        nav.addView(next, new LinearLayout.LayoutParams(48, 40));
         header.addView(nav);
 
         prev.setOnClickListener(v -> { if (day > 1) { day--; RoadmapStore.setCurrentDay(this, day); render(); }});
@@ -169,13 +190,19 @@ public class MainActivity extends Activity {
         });
 
         setContentView(scroll);
+        if (Build.VERSION.SDK_INT >= 23) {
+            // White status-bar icons/text on the dark app background.
+            getWindow().getDecorView().setSystemUiVisibility(0);
+        }
+        scroll.requestApplyInsets();
     }
 
     private void render() {
         JSONObject d = RoadmapData.day(this, day);
         JSONObject ds = RoadmapData.dsaDay(this, day);
 
-        dayLabel.setText("DAY " + day + " / 130\n" + RoadmapData.safe(d, "phase"));
+        // Keep the compact header to one line so it never gets clipped.
+        dayLabel.setText("DAY " + day + " / 130");
         title.setText(RoadmapData.safe(d, "title"));
         summary.setText(RoadmapData.safe(d, "type").equals("project")
                 ? "Project / revision day — finish the build and your 2 DSA questions."
