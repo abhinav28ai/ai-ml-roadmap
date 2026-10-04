@@ -2,10 +2,11 @@
   "name": "AI ML Roadmap",
   "short_name": "AI ML Roadmap",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#121212",
   "theme_color": "#121212",
-  "description": "130-day AI/ML roadmap with NeetCode 150, projects, certifications and research tracking.",
+  "description": "130-day AI/ML roadmap + NeetCode 150",
   "icons": [
     {
       "src": "icons/icon-192.png",
