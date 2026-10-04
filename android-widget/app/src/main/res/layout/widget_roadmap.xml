@@ -1,0 +1,111 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:background="@drawable/widget_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/widgetBrand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="AI ML ROADMAP"
+            android:textColor="#E0E0E0"
+            android:textStyle="bold"
+            android:textSize="13sp"/>
+
+        <ImageView
+            android:id="@+id/widgetProgress"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:contentDescription="Roadmap completion"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/widgetDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="DAY 1 · TODAY"
+        android:textColor="#B0B0B0"
+        android:textSize="10sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/widgetTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Today's Target"
+        android:textColor="#E0E0E0"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:maxLines="2"/>
+
+    <TextView
+        android:id="@+id/widgetDsa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="#B0B0B0"
+        android:textSize="10sp"
+        android:maxLines="2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/widgetPrev"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="‹"
+            android:textSize="18sp"
+            android:textColor="#E0E0E0"
+            android:background="@drawable/button_bg"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="0dp"/>
+
+        <Button
+            android:id="@+id/widgetDone"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="2"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:text="✓ DONE"
+            android:textSize="11sp"
+            android:textColor="#121212"
+            android:background="@drawable/button_primary_bg"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="0dp"/>
+
+        <Button
+            android:id="@+id/widgetNext"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="›"
+            android:textSize="18sp"
+            android:textColor="#E0E0E0"
+            android:background="@drawable/button_bg"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="0dp"/>
+    </LinearLayout>
+</LinearLayout>
