@@ -35,6 +35,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
+        if (Build.VERSION.SDK_INT >= 30) {
+            getWindow().setDecorFitsSystemWindows(true);
+        }
         day = RoadmapStore.getCurrentDay(this);
         buildUi();
         render();
@@ -90,21 +93,17 @@ public class MainActivity extends Activity {
         root.setPadding(14, 14, 14, 22);
         scroll.addView(root);
 
-        // Android 15+ enforces edge-to-edge for apps targeting API 35+.
-        // Apply the system-bar insets to keep the app content below the status
-        // bar and above the navigation gesture area on Pixel/modern Android.
+        // Keep the main content inside the system-bar-safe area.
+        scroll.setClipToPadding(true);
         scroll.setOnApplyWindowInsetsListener((v, insets) -> {
-            int top = 0;
             int bottom = 0;
             if (Build.VERSION.SDK_INT >= 30) {
                 android.graphics.Insets bars = insets.getInsets(WindowInsets.Type.systemBars());
-                top = bars.top;
                 bottom = bars.bottom;
             } else {
-                top = insets.getSystemWindowInsetTop();
                 bottom = insets.getSystemWindowInsetBottom();
             }
-            root.setPadding(14, 14 + top, 14, 22 + bottom);
+            root.setPadding(14, 10, 14, 22 + bottom);
             return insets;
         });
 
